@@ -143,32 +143,21 @@ def midpoint(a,b,N,f):
 # Trapezoid method function
 def trapezoid(a,b,N,f):
     h=abs(b-a)/N
-    T=0
-    x_0=a
-    for i in range(1,N+1):
+    T=h/2*(f(a)+f(b))
+    for i in range(1,N):
         x=a+i*h
-        t=(x+x_0)/2
-        if i==1 or i==N:                  #For 1,N w=1
-            T=T+h/2*f(t)
-        else:
-            T=T+h/2*2*f(t)         #Else w=2
-        x_0=x
+        T=T+h/2*f(x)*2        #weight  function=2
     return T
 # Simpson method function
 def simpson(a,b,N,f):
     h=abs(b-a)/N
-    S=0
-    x_0=a
-    for i in range(1,N+1):
+    S=h/3*(f(a)+f(b))
+    for i in range(1,N):
         x=a+i*h
-        s=(x+x_0)/2
-        if i==1 or i==N:
-            S=S+h/3*f(s)
-        if i%2==0:                       #for even case, w=2
-            S=S+h/3*f(s)*2
-        else:                            #for odd case, w=4
-            S=S+h/3*f(s)*4
-        x_0=x
+        if i%2==0:
+            S=S+h/3*f(x)*2            #weight function=2
+        else:
+            S=S+h/3*f(x)*4            #weight function=4
     return S
 # Montecarlo method function
 def montecarlo(a,b,N,f):
