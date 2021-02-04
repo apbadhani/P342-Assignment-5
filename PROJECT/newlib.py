@@ -223,7 +223,7 @@ def RK4(x,y,v,h,r,f1,f2):
         x = x + h
         X.append(x)
         Y.append(y)
-    return X,Y
+    return X[r],Y[r]
 #Shooting Method
 #zl,zh=guesses
 def ShootingMethod(fy, fz, x, xlimit, y, yn, zl, zh, h):
@@ -231,20 +231,19 @@ def ShootingMethod(fy, fz, x, xlimit, y, yn, zl, zh, h):
     for i in range(50):
         y_el, xl = RK4(x, y, z0 ,h,xlimit,fy,fz)
         if abs(y_el - yn) < 10 ** (-6):
-            return y_el,z0
+            return y_el
         else:
             z0 = zh
             y_eh, xh = RK4(x, y, z0,h,xlimit,fy,fz)
             if abs(y_eh - yn) < 10 ** (-6):
-                return y_eh,z0
+                return z0
             elif y_el < yn and yn < y_eh:
                 z0 = zl + (zh - zl) * (yn - y_el) / (y_eh - y_el)
             elif y_eh < yn and yn < y_el:
                 z0 = zh + (zl - zh) * (yn - y_eh) / (y_el - y_eh)
             else:
-                print("choose differnt values of z(%.0f)"%(x))
-                return None,None
-
+                print("Choose other values")
+                return None
 #Monte Carlo for 3-dimension
 #takes input-dimensions of box,function,analytic value
 def montecarlo3d(a,b,c,f, N,val):
@@ -303,7 +302,7 @@ def randwalk1(N, n):
 
     xavg = xsum / N
     yavg = ysum / N
-    return Rrms,r,xavg,yavg                         #return rms,radial and x,y avg displacement
+    return r,xavg,yavg                         #return rms,radial and x,y avg displacement
 
 #Least Square Fit
 def LinleastSquare(X,Y):
